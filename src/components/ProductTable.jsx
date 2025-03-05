@@ -1,42 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
+import initializeDatabase from "../database";
 
-const products = [
-  {
-    image: "https://fakeimg.pl/300/",
-    name: "Camera Mi 360°",
-    sold: 432,
-    price: 120,
-    revenue: 51840,
-    rating: 4.81,
-  },
-  {
-    image: "https://fakeimg.pl/300/",
-    name: "Massage Gun",
-    sold: 120,
-    price: 112,
-    revenue: 25440,
-    rating: 3.44,
-  },
-  {
-    image: "https://fakeimg.pl/300/",
-    name: "Vacuum-Mop 2 Pro",
-    sold: 221,
-    price: 320,
-    revenue: 15123,
-    rating: 3.22,
-  },
-  {
-    image: "https://fakeimg.pl/300/",
-    name: "Vacuum-Mop 2",
-    sold: 223,
-    price: 234,
-    revenue: 32812,
-    rating: 3.00,
-  },
-];
+
+
+
 
 const ProductTable = () => {
+  const [productData, setProductData] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const db = await initializeDatabase();
+  
+      // Fetch product data
+      const productDataRes = db.exec('SELECT * FROM product_data');
+      const productData = productDataRes[0].values.map(row => ({
+        product: row[1],
+        sold_amount: row[2],
+        unit_price: row[3],
+        revenue: row[4],
+        rating: row[5],
+        image: `https://fakeimg.pl/300/`
+      }));
+      setProductData(productData);
+    };
+  
+    fetchData();
+  }, []);
+
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md">
       <div className="flex justify-between items-center mb-4">
@@ -57,14 +49,14 @@ const ProductTable = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product, index) => (
+          {productData.map((product, index) => (
             <tr key={index} className="">
               <td className="flex items-center py-3 space-x-3">
                 <img src={product.image} alt={product.name} className="w-8 h-8 rounded-full" />
                 <span className="text-gray-800">{product.name}</span>
               </td>
-              <td className="py-3">{product.sold}</td>
-              <td className="py-3">${product.price}</td>
+              <td className="py-3">{product.sold_amount}</td>
+              <td className="py-3">${product.unit_price}</td>
               <td className="py-3">${product.revenue.toLocaleString()}</td>
               <td className="py-3 flex items-center">
                 <Star className="w-4 h-4 text-orange-400" />

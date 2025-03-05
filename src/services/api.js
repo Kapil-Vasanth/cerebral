@@ -8,7 +8,7 @@ const register = async (userData) => {
   
 const login = async (userData) => {
     // Bypass for trial account
-    if (userData.username === 'trial' && userData.password === 'password123') {
+    if (userData.username === 'trial' && userData.password === 'assignment123') {
         return {
             user: { username: 'trial', role: 'trial' },
             token: 'trial-token'

@@ -46,7 +46,7 @@ const AuthPage = () => {
   return (
     <div className="flex h-screen flex-col lg:flex-row bg-gradient-to-r from-purple-500 to-purple-900 bg-cover">
       {/* Left Box */}
-      <div className="w-full w-1/2 flex flex-col justify-start p-20  bg-[url(src/assets/auth-bg.png)]  text-white">
+      <div className="w-1/2 flex flex-col justify-start p-20  bg-[url(src/assets/auth-bg.png)]  text-white">
         <img src="" alt="" width={256} height={57} className='mb-6'/>
         <h1 className="text-[40px] text-lg-[90px] leading-tight font-thin mb-4 max-w-[647px] mt-4">
           Salesway AI Assistant
@@ -55,7 +55,7 @@ const AuthPage = () => {
       </div>
       
       {/* Right Box */}
-      <div className="w-full w-1/2  bg-gray-100 flex flex-col justify-center items-center p-10">
+      <div className="w-1/2  bg-gray-100 flex flex-col justify-center items-center p-10">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-semibold text-gray-700">Welcome to SalesWay</h2>
         </div>

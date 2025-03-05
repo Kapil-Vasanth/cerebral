@@ -1,28 +1,51 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import initializeDatabase from "../database";
 
 Chart.register(...registerables);
 
 const ComparisonChart = () => {
-  // Chart Data
-  const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "This year",
-        data: [5000, 10000, 4000, 20000, 15000, 5000],
-        backgroundColor: "#007BFF",
-        borderRadius: 4,
-      },
-      {
-        label: "Last year",
-        data: [3000, 8000, 2500, 16000, 7000, 2500],
-        backgroundColor: "#99DAFF",
-        borderRadius: 4,
-      },
-    ],
-  };
+
+
+  const [monthlyData, setMonthlyData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const db = await initializeDatabase();
+
+      // Fetch monthly data
+      const monthlyDataRes = db.exec('SELECT * FROM monthly_data');
+      const monthlyData = monthlyDataRes[0].values.map(row => ({
+        month: row[1],
+        last_year: row[2],
+        this_year: row[3]
+      }));
+      setMonthlyData(monthlyData);
+
+      
+    };
+
+    fetchData();
+  }, []);
+    // Chart Data
+    const data = {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      datasets: [
+        {
+          label: "This year",
+          data: monthlyData.map(data => data.this_year),
+          backgroundColor: "#007BFF",
+          borderRadius: 4,
+        },
+        {
+          label: "Last year",
+          data: monthlyData.map(data => data.last_year),
+          backgroundColor: "#99DAFF",
+          borderRadius: 4,
+        },
+      ],
+    };
 
   // Chart Options
   const options = {

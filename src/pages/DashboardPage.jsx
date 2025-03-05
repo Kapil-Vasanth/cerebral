@@ -54,7 +54,7 @@ const DashboardPage = () => {
                 <div className='p-6 flex flex-wrap lg:flex-nowrap 0 gap-4'>
                     
                    <div className='w-full lg:w-3/4'>
-                    <div className="w-full grid grid-cols-3 gap-4 ">
+                        <div className="w-full grid grid-cols-3 gap-4 ">
                             <DashboardHeader />
                             <Stats />
                         </div>
